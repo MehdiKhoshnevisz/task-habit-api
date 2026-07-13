@@ -33,6 +33,7 @@ task-habit-api/
 │       ├── tasks.py         # Task CRUD and search
 │       └── habits.py        # Habit management, check-ins, and stats
 ├── requirements.txt
+├── .env.example             # Environment variable template
 ├── .env                     # Local environment variables (not committed)
 └── README.md
 ```
@@ -74,13 +75,19 @@ task-habit-api/
 
 4. **Configure environment variables**
 
-   Create a `.env` file in the project root:
+   Copy `.env.example` to `.env` and update the placeholder values:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Then open `.env` and change at least `SECRET_KEY` and `SQLALCHEMY_DATABASE_URL` (for example, replace `your-db-name-db` with your preferred SQLite filename):
 
    ```env
-   SECRET_KEY=your-secret-key-here
    ALGORITHM=HS256
-   SQLALCHEMY_DATABASE_URL=sqlite:///./task_habit.db
    ACCESS_TOKEN_EXPIRE_MINUTES=30
+   SECRET_KEY=a-very-secret-key-change-this-later
+   SQLALCHEMY_DATABASE_URL=sqlite:///./your-db-name-db.db
    ```
 
    | Variable | Required | Description |
