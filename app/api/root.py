@@ -1,12 +1,12 @@
-from functools import lru_cache
 from pathlib import Path
+from functools import lru_cache
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 
 router = APIRouter(tags=["root"])
 
-TEMPLATE_PATH = Path(__file__).resolve().parent.parent / "templates" / "root.html"
+TEMPLATE_PATH = Path(__file__).resolve().parent.parent / "templates" / "index.html"
 
 
 @lru_cache

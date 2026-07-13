@@ -28,11 +28,15 @@ task-habit-api/
 │   ├── core/
 │   │   ├── config.py        # Environment-based settings
 │   │   └── security.py      # Password hashing and JWT utilities
-│   └── routers/
-│       ├── auth.py          # Registration, login, and current user
-│       ├── tasks.py         # Task CRUD and search
-│       └── habits.py        # Habit management, check-ins, and stats
-├── requirements.txt
+│   ├── api/
+│   │   ├── main.py          # API router assembly
+│   │   ├── root.py          # Landing page
+│   │   ├── auth.py          # Registration, login, and current user
+│   │   ├── tasks.py         # Task CRUD and search
+│   │   └── habits.py        # Habit management, check-ins, and stats
+├── requirements.txt         # pip dependencies (also declared in pyproject.toml)
+├── pyproject.toml           # Vercel / uv dependency manifest
+├── vercel.json              # Vercel function configuration
 ├── .env.example             # Environment variable template
 ├── .env                     # Local environment variables (not committed)
 └── README.md
@@ -71,6 +75,12 @@ task-habit-api/
 
    ```bash
    pip install -r requirements.txt
+   ```
+
+   Or with [uv](https://docs.astral.sh/uv/) (matches the [Vercel FastAPI example](https://github.com/vercel/vercel/tree/main/examples/fastapi)):
+
+   ```bash
+   uv sync
    ```
 
 4. **Configure environment variables**

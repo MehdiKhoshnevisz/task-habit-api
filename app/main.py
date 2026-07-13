@@ -2,9 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.api.main import api_router
 from app.core.config import fastapi_settings
 from app.database import Base, engine
-from app.routers import auth, habits, root, tasks
 
 
 # Runs once when the app starts (before requests) and optionally on shutdown (after yield).
@@ -22,7 +22,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(root.router)
-app.include_router(auth.router)
-app.include_router(tasks.router)
-app.include_router(habits.router)
+app.include_router(api_router)
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

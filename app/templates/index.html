@@ -55,12 +55,18 @@
         color: #64748b;
         margin-bottom: 1.75rem;
       }
+      .creator a {
+        display: inline-block;
+        color: #0f172a;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
       .links {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
       }
-      a {
+      .links a {
         display: block;
         padding: 0.85rem 1rem;
         border-radius: 12px;
@@ -75,12 +81,12 @@
           border-color 0.2s ease,
           transform 0.2s ease;
       }
-      a:hover {
+      .links a:hover {
         background: #ffffff;
         border-color: #cbd5e1;
         transform: translateY(-1px);
       }
-      a span {
+      .links a span {
         display: block;
         font-size: 0.75rem;
         font-weight: 400;
@@ -93,13 +99,15 @@
     <main>
       <p class="badge">REST API</p>
       <h1>Task & Habit API</h1>
-      <p class="creator">Created by metthew</p>
+      <p class="creator">
+        Created by <a href="https://t.me/metthewk" target="_blank">@metthew</a>
+      </p>
       <div class="links">
         <a href="{{docs_url}}">
           API docs
           <span>Swagger UI</span>
         </a>
-        <a href="{{github_url}}">
+        <a href="{{github_url}}" target="_blank">
           GitHub repo
           <span>Source code</span>
         </a>

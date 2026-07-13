@@ -1,0 +1,13 @@
+[project]
+name = "task-habit-api"
+version = "1.0.0"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "fastapi[standard]>=0.121.0",
+    "sqlalchemy>=2.0.0",
+    "passlib[bcrypt]>=1.7.4",
+    "bcrypt==4.0.1",
+    "python-jose[cryptography]>=3.3.0",
+    "python-multipart>=0.0.9",
+    "pydantic-settings>=2.2.1",
+]
