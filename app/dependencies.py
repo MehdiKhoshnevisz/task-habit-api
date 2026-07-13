@@ -1,10 +1,11 @@
-from jose import jwt, JWTError
 from fastapi import Depends, HTTPException, status
+from jose import JWTError, jwt
 from sqlalchemy.orm import Session
+
+from app.core.config import settings
+from app.core.security import oauth2_scheme
 from app.database import get_db
 from app.models import User
-from app.core.security import oauth2_scheme
-from app.core.config import settings
 
 
 def get_current_user(

@@ -1,10 +1,12 @@
-from fastapi import Depends, HTTPException, status, APIRouter
-from sqlalchemy.orm import Session
 from datetime import date, timedelta
+
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from app.database import get_db
 from app.dependencies import get_current_user
-from app.models import Habit, User, HabitLog
-from app.schemas import HabitResponse, HabitModel, HabitStatsResponse, CheckinResponse
+from app.models import Habit, HabitLog, User
+from app.schemas import CheckinResponse, HabitModel, HabitResponse, HabitStatsResponse
 
 router = APIRouter(
     prefix="/habits",

@@ -1,9 +1,10 @@
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.schemas import TaskResponse, TaskModel
+
 from app.database import get_db
 from app.dependencies import get_current_user
 from app.models import Task, User
+from app.schemas import TaskModel, TaskResponse
 
 router = APIRouter(
     prefix="/tasks",
@@ -41,7 +42,7 @@ async def get_task(
     return db_task
 
 
-## Create Tasks
+## Create a Task
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=TaskResponse)
 async def create_task(
     task: TaskModel,

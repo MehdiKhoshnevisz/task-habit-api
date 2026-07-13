@@ -1,7 +1,9 @@
-from sqlalchemy import Column, ForeignKey, Integer, Boolean, String, DateTime, Date
-from sqlalchemy.orm import relationship
-from app.database import Base
 from datetime import datetime
+
+from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
+
+from app.database import Base
 
 
 class Task(Base):
