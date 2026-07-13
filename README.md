@@ -181,3 +181,51 @@ curl -X POST http://127.0.0.1:8000/habits \
 curl -X POST http://127.0.0.1:8000/habits/1/checkin \
   -H "Authorization: Bearer TOKEN"
 ```
+
+## Deploying to Vercel
+
+This project follows the [Vercel FastAPI deployment guide](https://vercel.com/docs/frameworks/backend/fastapi). Vercel auto-detects the `app` instance in `app/main.py`.
+
+### 1. Set environment variables in Vercel
+
+In your Vercel project dashboard, go to **Settings → Environment Variables** and add:
+
+| Variable | Value |
+|---|---|
+| `SECRET_KEY` | A strong random secret for JWT signing |
+| `SQLALCHEMY_DATABASE_URL` | `sqlite:////tmp/task-habits.db` |
+| `ALGORITHM` | `HS256` (optional) |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | `30` (optional) |
+
+Use `/tmp` for SQLite on Vercel because the filesystem is writable there. Note that data in `/tmp` is ephemeral and may not persist between function invocations.
+
+### 2. Deploy
+
+If the GitHub repo is already connected to Vercel, push these changes to trigger a deployment:
+
+```bash
+git add .
+git commit -m "Configure FastAPI for Vercel deployment"
+git push
+```
+
+Or deploy manually with the Vercel CLI:
+
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+### 3. Verify
+
+After deployment:
+
+- Health check: `https://<your-project>.vercel.app/`
+- API docs: `https://<your-project>.vercel.app/docs`
+
+### Local development with Vercel CLI
+
+```bash
+pip install -r requirements.txt
+vercel dev
+```
