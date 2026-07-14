@@ -36,7 +36,6 @@ task-habit-api/
 │   │   └── habits.py        # Habit management, check-ins, and stats
 ├── requirements.txt         # pip dependencies (also declared in pyproject.toml)
 ├── pyproject.toml           # Vercel / uv dependency manifest
-├── vercel.json              # Vercel function configuration
 ├── .env.example             # Environment variable template
 ├── .env                     # Local environment variables (not committed)
 └── README.md
