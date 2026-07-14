@@ -39,6 +39,55 @@ async def create_habit(
     return db_habit
 
 
+## Update a Habit
+@router.put("/{id}", status_code=status.HTTP_200_OK, response_model=HabitResponse)
+async def update_habit(
+    id: int,
+    habit: HabitModel,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    db_habit = db.query(Habit).filter(Habit.id == id).first()
+
+    if db_habit is None:
+        raise HTTPException(status_code=404, detail="Habit not found")
+
+    if db_habit.owner_id != current_user.id:
+        raise HTTPException(
+            status_code=403, detail="Not authorized to access this habit"
+        )
+
+    db_habit.name = habit.name
+    db.commit()
+    db.refresh(db_habit)
+
+    return db_habit
+
+
+## Delete a Habit
+@router.delete("/{id}", status_code=status.HTTP_200_OK, response_model=HabitResponse)
+async def delete_habit(
+    id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    db_habit = db.query(Habit).filter(Habit.id == id).first()
+
+    if db_habit is None:
+        raise HTTPException(status_code=404, detail="Habit not found")
+
+    if db_habit.owner_id != current_user.id:
+        raise HTTPException(
+            status_code=403, detail="Not authorized to access this habit"
+        )
+
+    db.query(HabitLog).filter(HabitLog.habit_id == id).delete()
+    db.delete(db_habit)
+    db.commit()
+
+    return db_habit
+
+
 ## Checking a Habit
 @router.post(
     "/{id}/checkin",

@@ -33,7 +33,7 @@ task-habit-api/
 │   │   ├── root.py          # Landing page
 │   │   ├── auth.py          # Registration, login, and current user
 │   │   ├── tasks.py         # Task CRUD and search
-│   │   └── habits.py        # Habit management, check-ins, and stats
+│   │   └── habits.py        # Habit CRUD, check-ins, and stats
 ├── requirements.txt         # pip dependencies (also declared in pyproject.toml)
 ├── pyproject.toml           # Vercel / uv dependency manifest
 ├── .env.example             # Environment variable template
@@ -160,6 +160,8 @@ All task and habit endpoints require a Bearer token. Obtain one by registering a
 |---|---|---|
 | `GET` | `/habits` | List all habits for the current user |
 | `POST` | `/habits` | Create a new habit |
+| `PUT` | `/habits/{id}` | Update a habit |
+| `DELETE` | `/habits/{id}` | Delete a habit |
 | `POST` | `/habits/{id}/checkin` | Check in a habit for today |
 | `GET` | `/habits/{habit_id}/stats` | Get streak and check-in statistics |
 
@@ -188,6 +190,16 @@ curl -X POST http://127.0.0.1:8000/habits \
   -d '{"name": "Morning run"}'
 
 curl -X POST http://127.0.0.1:8000/habits/1/checkin \
+  -H "Authorization: Bearer TOKEN"
+
+# Update a habit
+curl -X PUT http://127.0.0.1:8000/habits/1 \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Evening run"}'
+
+# Delete a habit
+curl -X DELETE http://127.0.0.1:8000/habits/1 \
   -H "Authorization: Bearer TOKEN"
 ```
 
