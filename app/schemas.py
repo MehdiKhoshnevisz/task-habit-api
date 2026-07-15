@@ -9,6 +9,13 @@ class TaskModel(BaseModel):
     priority: int = 1
 
 
+class TaskPatchModel(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    priority: int | None = None
+    completed: bool | None = None
+
+
 class TaskResponse(BaseModel):
     id: int
     title: str

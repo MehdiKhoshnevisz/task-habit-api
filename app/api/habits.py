@@ -3,8 +3,7 @@ from datetime import date, timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, get_db
 from app.models import Habit, HabitLog, User
 from app.schemas import CheckinResponse, HabitModel, HabitResponse, HabitStatsResponse
 

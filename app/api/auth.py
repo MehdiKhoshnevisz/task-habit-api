@@ -7,8 +7,7 @@ from app.core.security import (
     hash_password,
     verify_password,
 )
-from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, get_db
 from app.models import User
 from app.schemas import Token, UserModel, UserResponse
 

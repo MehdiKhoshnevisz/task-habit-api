@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, get_db
 from app.models import Task, User
-from app.schemas import TaskModel, TaskResponse
+from app.schemas import TaskModel, TaskPatchModel, TaskResponse
 
 router = APIRouter(
     prefix="/tasks",
@@ -20,6 +19,22 @@ async def get_tasks(
     current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
 ):
     return db.query(Task).filter(Task.owner_id == current_user.id).all()
+
+## Search on Tasks
+@router.get("/search", response_model=list[TaskResponse])
+async def search(
+    title: str | None = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return (
+        db.query(Task)
+        .filter(
+            Task.owner_id == current_user.id,
+            Task.title.like(f"%{title}%"),
+        )
+        .all()
+    )
 
 
 ## Get a Task
@@ -83,6 +98,32 @@ async def update_task(
 
     return db_task
 
+## Partially update a Task
+@router.patch("/{id}", status_code=status.HTTP_200_OK, response_model=TaskResponse)
+async def patch_task(
+    id: int,
+    task: TaskPatchModel,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    db_task = db.query(Task).filter(Task.id == id).first()
+
+    if db_task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+
+    if db_task.owner_id != current_user.id:
+        raise HTTPException(
+            status_code=403, detail="Not authorized to access this task"
+        )
+
+    for field, value in task.model_dump(exclude_unset=True).items():
+        setattr(db_task, field, value)
+
+    db.commit()
+    db.refresh(db_task)
+
+    return db_task
+
 
 ## Delete a Task
 @router.delete("/{id}", status_code=status.HTTP_200_OK, response_model=TaskResponse)
@@ -107,18 +148,3 @@ async def delete_task(
     return db_task
 
 
-## Search on Tasks
-@router.get("/search", response_model=list[TaskResponse])
-async def search(
-    title: str | None = None,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    return (
-        db.query(Task)
-        .filter(
-            Task.owner_id == current_user.id,
-            Task.title.like(f"%{title}%"),
-        )
-        .all()
-    )

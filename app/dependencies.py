@@ -4,9 +4,16 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.security import oauth2_scheme
-from app.database import get_db
+from app.database import SessionLocal
 from app.models import User
 
+
+async def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 def get_current_user(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
